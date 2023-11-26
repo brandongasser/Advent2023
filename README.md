@@ -16,3 +16,4 @@ To run a solution, run the following command from the base directory
 ```
 ./run.bash [day] [part]
 ```
+The first time you run a solution, it may take a few seconds to compile.
