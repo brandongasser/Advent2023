@@ -1,4 +1,4 @@
-module Utilities.Stack ( Stack, fromList, push, pop ) where
+module Utilities.Stack ( Stack, empty, fromList, toList, push, pushAll, pop, popMany ) where
 
 newtype Stack a = Stack [a]
     deriving (Read, Show, Foldable)

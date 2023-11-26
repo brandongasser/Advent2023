@@ -1,4 +1,4 @@
-module Utilities.Queue where
+module Utilities.Queue ( Queue, empty, fromList, toList, enqueue, enqueueAll, dequeue, dequeueMany ) where
 
 data Queue a = Queue {
     inbox :: [a],
