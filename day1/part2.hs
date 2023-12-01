@@ -20,19 +20,14 @@ readTwoDigit str = let ds = filter isDigit str
 
 {-|
 Replaces spelled out digits with its respective digit character, allowing overlapping.
+Because of how overlapping is implemented, the result will contain spelled out digits.
 
 @
-replaceTextDigits "two1nine" -> "219"
-replaceTextDigits "eightwothree" -> "823"
+replaceTextDigits "two1nine" -> "two2two1nine9nine"
+replaceTextDigits "eightwothree" -> "eight8teightwo2twothree3three"
 @
 -}
 replaceTextDigits :: String -> String
-replaceTextDigits str = let text1 = replace (pack "one") (pack "o1e") (pack str)
-                            text2 = replace (pack "two") (pack "t2o") text1
-                            text3 = replace (pack "three") (pack "t3e") text2
-                            text4 = replace (pack "four") (pack "f4r") text3
-                            text5 = replace (pack "five") (pack "f5e") text4
-                            text6 = replace (pack "six") (pack "s6x") text5
-                            text7 = replace (pack "seven") (pack "s7n") text6
-                            text8 = replace (pack "eight") (pack "e8t") text7
-                        in  unpack $ replace (pack "nine") (pack "n9e") text8
+replaceTextDigits str = let digitStrings = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+                            pairs = [(pack x, pack (x ++ show i ++ x)) | (i, x) <- zip [1..] digitStrings]
+                        in  unpack $ foldr (\(key, value) acc -> replace key value acc) (pack str) pairs
