@@ -6,9 +6,9 @@ My solutions are written in [Haskell](https://www.haskell.org/).
 ## Project Structure
 
 The base directory contains a folder for utilities that can be used between days.
-The solutions for each day are in a folder named "dayx".
-Each folder contains my puzzle input in a text file "input.txt", a main file for part 1 and part 2,
-and any additional files needed for that day.
+The solutions for each day are in a folder named `dayx`.
+Each folder contains a main file for part 1 and part 2 and any additional files needed for that day.
+The input for each a day should be added in its folder in a file named `input.txt`.
 
 ## Running a Solution
 
