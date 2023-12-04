@@ -1,4 +1,4 @@
-module Day4.Parser ( Card (Card, id, winningNumbers, cardNumbers), parseFile ) where
+module Day4.Parser ( Card (Card, cardId, winningNumbers, cardNumbers), parseFile ) where
 
 import Utilities.Parse
     ( char,
@@ -14,7 +14,7 @@ numList :: Parser [Int]
 numList = many1 (nat <* spaceChars)
 
 data Card = Card {
-    id :: Int,
+    cardId :: Int,
     winningNumbers :: [Int],
     cardNumbers :: [Int]
 } deriving Show
