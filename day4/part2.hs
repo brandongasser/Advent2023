@@ -1,7 +1,7 @@
 module Day4.Part2 ( main ) where
 
 import Day4.Parser ( parseFile, Card (cardId, winningNumbers, cardNumbers) )
-import Control.Monad.State
+import Control.Monad.State ( MonadState (put, get), execState, State )
 
 handleCards :: Card -> State [Int] ()
 handleCards originalCard = do currentCounts <- get
