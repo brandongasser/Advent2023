@@ -1,4 +1,4 @@
-module Utilities.Parse ( module Text.Parsec, module Text.Parsec.String, eol, nat, int, decimal ) where
+module Utilities.Parse ( module Text.Parsec, module Text.Parsec.String, eol, nat, int, decimal, spaceChar, spaceChars ) where
 
 import Text.Parsec
 import Text.Parsec.String
@@ -20,3 +20,9 @@ decimal = try (do whole <- int
                   dec <- nat
                   return $ read (show whole ++ "." ++ show dec))
                <|> fromIntegral <$> int
+
+spaceChar :: Parser ()
+spaceChar = void $ char ' '
+
+spaceChars :: Parser ()
+spaceChars = void $ many spaceChar
