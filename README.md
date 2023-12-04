@@ -17,3 +17,11 @@ To run a solution, run the following command from the base directory
 ./run.bash [day] [part]
 ```
 The first time you run a solution, it may take a few seconds to compile.
+
+## Run All Solutions
+
+To run all solutions at once, run the following command from the base directory
+```
+./runall.bash
+```
+This may take a while depending on how long each solution takes to run and how many days need to be compiled.
