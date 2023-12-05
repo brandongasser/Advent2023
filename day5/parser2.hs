@@ -1,4 +1,4 @@
-module Day5.Parser ( Almanac (seeds, seedToSoil, soilToFertilizer, fertilizerToWater, waterToLight, lightToTemperature, temperatureToHumidity, humidityToLocation), parseFile ) where
+module Day5.Parser2 ( Almanac (..), parseFile ) where
 
 import Utilities.Parse
     ( eol,
@@ -14,32 +14,36 @@ import Data.Maybe ( fromMaybe )
 import Control.Applicative ( (<|>) )
 
 data Almanac = Almanac {
-    seeds :: [Int],
-    seedToSoil :: Int -> Int,
-    soilToFertilizer :: Int -> Int,
-    fertilizerToWater :: Int -> Int,
-    waterToLight :: Int -> Int,
-    lightToTemperature :: Int -> Int,
-    temperatureToHumidity :: Int -> Int,
-    humidityToLocation :: Int -> Int
+    seeds :: [(Int, Int)],
+    soilToSeed :: Int -> Int,
+    fertilizerToSoil :: Int -> Int,
+    waterToFertilizer :: Int -> Int,
+    lightToWater :: Int -> Int,
+    temperatureToLight :: Int -> Int,
+    humidityToTemperature :: Int -> Int,
+    locationToHumidity :: Int -> Int
 }
 
-pseeds :: Parser [Int]
+pseeds :: Parser [(Int, Int)]
 pseeds = do string "seeds:"
             spaceChars
-            many1 (nat <* spaceChars)
+            many1 (do start <- nat
+                      spaces
+                      range <- nat
+                      spaces
+                      return (start, range))
 
 pmapping :: Parser (Int -> Int)
-pmapping = do ranges <- many1 (do destStart <- nat
+pmapping = do ranges <- many1 (do sourceStart <- nat
                                   spaces
-                                  sourceStart <- nat
+                                  destStart <- nat
                                   spaces
                                   range <- nat
                                   eol
-                                  return (destStart, sourceStart, range))
+                                  return (sourceStart, destStart, range))
               return $ lookupInRanges ranges
     where
-        rangeValue (destStart, sourceStart, range) x = if   x >= sourceStart && x < sourceStart + range
+        rangeValue (sourceStart, destStart, range) x = if   x >= sourceStart && x < sourceStart + range
                                                        then Just (destStart + x - sourceStart)
                                                        else Nothing
         lookupInRanges ranges x = fromMaybe x $ foldr (\current acc -> rangeValue current x <|> acc) Nothing ranges
@@ -52,20 +56,20 @@ pmap mapName = do string (mapName ++ " map:")
 palmanac :: Parser Almanac
 palmanac = do seeds <- pseeds
               spaces
-              seedToSoil <- pmap "seed-to-soil"
+              soilToSeed <- pmap "seed-to-soil"
               spaces
-              soilToFertilizer <- pmap "soil-to-fertilizer"
+              fertilizerToSoil <- pmap "soil-to-fertilizer"
               spaces
-              fertilizerToWater <- pmap "fertilizer-to-water"
+              waterToFertilizer <- pmap "fertilizer-to-water"
               spaces
-              waterToLight <- pmap "water-to-light"
+              lightToWater <- pmap "water-to-light"
               spaces
-              lightToTemperature <- pmap "light-to-temperature"
+              temperatureToLight <- pmap "light-to-temperature"
               spaces
-              temperatureToHumidity <- pmap "temperature-to-humidity"
+              humidityToTemperature <- pmap "temperature-to-humidity"
               spaces
-              humidityToLocation <- pmap "humidity-to-location"
-              return $ Almanac seeds seedToSoil soilToFertilizer fertilizerToWater waterToLight lightToTemperature temperatureToHumidity humidityToLocation
+              locationToHumidity <- pmap "humidity-to-location"
+              return $ Almanac seeds soilToSeed fertilizerToSoil waterToFertilizer lightToWater temperatureToLight humidityToTemperature locationToHumidity
 
 parseFile :: String -> IO Almanac
 parseFile filename = parseFromFile palmanac filename >>= handle
