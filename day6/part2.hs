@@ -1,4 +1,4 @@
-module Day6.Part2 where
+module Day6.Part2 ( main ) where
 
 data Race = Race {
     totalTime :: Int,
