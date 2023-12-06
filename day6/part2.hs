@@ -1,12 +1,12 @@
-module Day6.Part1 ( main ) where
+module Day6.Part2 where
 
 data Race = Race {
     totalTime :: Int,
     totalDistance :: Int
 } deriving Show
 
-parseFile :: String -> IO [Race]
-parseFile filename = (\[times, distances] -> zipWith Race times distances) . map (map read . tail . words) . lines <$> readFile filename
+parseFile :: String -> IO Race
+parseFile filename = (\[time, distance] -> Race time distance) . map (read . concat . tail . words) . lines <$> readFile filename
 
 countPossibleWins :: Race -> Int
 countPossibleWins race = let t = fromIntegral $ totalTime race
@@ -16,5 +16,5 @@ countPossibleWins race = let t = fromIntegral $ totalTime race
                          in  leftBound - rightBound - 1
 
 main :: IO ()
-main = do races <- parseFile "day6/input.txt"
-          print $ product $ map countPossibleWins races
+main = do race <- parseFile "day6/input.txt"
+          print $ countPossibleWins race
