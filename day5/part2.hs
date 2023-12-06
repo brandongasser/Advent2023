@@ -1,22 +1,18 @@
 module Day5.Part2 ( main ) where
 
-import Day5.Parser2 (Almanac (..), parseFile )
+import Day5.Parser (Almanac (..), Range, parseFile )
+import Data.List
 
-compress :: Almanac -> Int -> Int
-compress almanac = soilToSeed almanac
-                 . fertilizerToSoil almanac
-                 . waterToFertilizer almanac
-                 . lightToWater almanac
-                 . temperatureToLight almanac
-                 . humidityToTemperature almanac
-                 . locationToHumidity almanac
-
-inSeeds :: [(Int, Int)] -> Int -> Bool
-inSeeds seeds x = any inSubRange seeds
-    where
-        inSubRange (start, range) = x >= start && x < start + range
+compress :: Almanac -> [Range] -> [Range]
+compress almanac = humidityToLocation almanac
+                 . temperatureToHumidity almanac
+                 . lightToTemperature almanac
+                 . waterToLight almanac
+                 . fertilizerToWater almanac
+                 . soilToFertilizer almanac
+                 . seedToSoil almanac
 
 main :: IO ()
-main = do almanac <- parseFile "day5/input.txt"
+main = do almanac <- parseFile 2 "day5/input.txt"
           let pipeline = compress almanac
-          print $ head $ dropWhile (not . inSeeds (seeds almanac) . pipeline) [1..]
+          print $ minimum $ pipeline (seeds almanac) >>= \(x, y) -> [x, y]

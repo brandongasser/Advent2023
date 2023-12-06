@@ -1,8 +1,8 @@
 module Day5.Part1 ( main ) where
 
-import Day5.Parser ( Almanac(..), parseFile )
+import Day5.Parser ( Almanac(..), Range, parseFile )
 
-compress :: Almanac -> Int -> Int
+compress :: Almanac -> [Range] -> [Range]
 compress almanac = humidityToLocation almanac
                  . temperatureToHumidity almanac
                  . lightToTemperature almanac
@@ -12,6 +12,6 @@ compress almanac = humidityToLocation almanac
                  . seedToSoil almanac
 
 main :: IO ()
-main = do almanac <- parseFile "day5/input.txt"
+main = do almanac <- parseFile 1 "day5/input.txt"
           let pipeline = compress almanac
-          print $ minimum $ map pipeline $ seeds almanac
+          print $ minimum $ pipeline (seeds almanac) >>= \(x, y) -> [x, y]
