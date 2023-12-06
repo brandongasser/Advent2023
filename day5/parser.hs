@@ -12,9 +12,7 @@ import Utilities.Parse
       many1,
       parseFromFile,
       Parser )
-import Data.List ( lookup, sortOn )
-import Data.Maybe ( fromMaybe )
-import Control.Applicative ( (<|>) )
+import Data.List ( sortOn )
 
 type Range = (Int, Int)
 

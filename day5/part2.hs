@@ -1,7 +1,6 @@
 module Day5.Part2 ( main ) where
 
 import Day5.Parser (Almanac (..), Range, parseFile )
-import Data.List
 
 compress :: Almanac -> [Range] -> [Range]
 compress almanac = humidityToLocation almanac
