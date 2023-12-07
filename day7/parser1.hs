@@ -1,4 +1,4 @@
-module Day7.Parser ( Hand (Hand, cards, bid, handType), HandType (..), CardType (..), parseFile ) where
+module Day7.Parser1 ( Hand (Hand, cards, bid, handType), HandType (..), CardType (..), parseFile ) where
 
 import Utilities.Parse ( char, spaces, many1, (<|>), parseFromFile, Parser, eol, nat )
 import Control.Monad ( replicateM )

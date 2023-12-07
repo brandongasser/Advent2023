@@ -1,6 +1,6 @@
-module Day7.Part1 ( main ) where
+module Day7.Part2 ( main ) where
 
-import Day7.Parser1 ( Hand (Hand, cards, bid, handType), HandType (..), CardType (..), parseFile )
+import Day7.Parser2 ( Hand (Hand, cards, bid, handType), HandType (..), CardType (..), parseFile )
 import Utilities.Utils ( compareSort )
 
 compareHands :: Hand -> Hand -> Int
